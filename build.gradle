@@ -1,6 +1,13 @@
+plugins {
+    id "com.jfrog.bintray" version "1.4"
+}
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
-version = '0.0.1'
+group       = 'com.biformatic.archtools'
+version     = '0.0.7'
+description = 'Generates Architecture Description based on supplied Markdown templates.\n\
+Within the template you can use PlantUml directives.'
 
 repositories {
     mavenCentral()
@@ -11,5 +18,27 @@ dependencies {
     compile localGroovy()
     
     compile 'org.freemarker:freemarker:2.3.23'
+    compile 'net.sourceforge.plantuml:plantuml:8035'
 }
 
+bintray {
+    user = 'amilenovic'
+    key = 'c188092e37755f18503cad170f0f28e63657a089'
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'ArchDescriptionGradlePlugin'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/amilenovic/ArchDescriptionGradlePlugin.git'
+        version {
+            name = "${project.version}"
+            desc = "${project.description}"
+            released  = new Date()
+        }
+    }
+}
+
+println 'Architecture Description Gradle Plugin'
+println '--------------------------------------'
+println project.description
+println '\n\n'

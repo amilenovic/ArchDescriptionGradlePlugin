@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        maven {
+            url  "http://dl.bintray.com/amilenovic/maven" 
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'com.biformatic.archtools', name: 'ArchDescriptionGradlePlugin', version: '0.0.7'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'com.biformatic.archtools.arch-description'
+apply plugin: UseCasePlugin
+
+class UseCase {
+    final String name
+    String actor
+    UseCase(String name) {
+        this.name = name
+    }
+}
+
+class UseCasePlugin implements Plugin<Project> {
+    void apply(Project project) {
+        def usecases = project.container(UseCase)
+        project.extensions.usecases = usecases
+    }
+}
+
+documentation {
+    outputDir = 'doc'
+    genHtml   = true
+}
+
+usecases {
+    uc1 {
+        actor = 'amilenovic'
+    }
+    uc2 {
+        actor = 'amilenovic'
+    }
+    uc3 {
+        actor = 'someone else'
+    }
+}
+
+project.usecases.each{ println "$it.name, $it.actor" }

@@ -14,7 +14,6 @@ import org.gradle.testfixtures.ProjectBuilder
 
 /**
  * DescTask Unit tests.
- * TODO: align on path separator, currently works on *nix only.
  * @author amilenovic
  */
 class DescTaskTest {
@@ -43,7 +42,7 @@ class DescTaskTest {
     @Test
     public void noTemplateDir() {
         task.description()
-        assertFalse project.file( "${project.buildDir}/${project.documentation.outputDir}").exists()
+        assertFalse project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}").exists()
     }
     
     @Test
@@ -51,13 +50,13 @@ class DescTaskTest {
         boolean tempDirCreated = project.file( project.documentation.templateDir ).mkdir()
         assertTrue tempDirCreated
         
-        PrintWriter out = new PrintWriter ( "${project.rootDir}/${project.documentation.templateDir}/test.md.ftl" )        
+        PrintWriter out = new PrintWriter ( "${project.rootDir}${File.separator}${project.documentation.templateDir}${File.separator}test.md.ftl" )        
         out.println '${project.name} Description'
         out.close()
         
         task.description()        
         
-        assertTrue project.file( "${project.buildDir}/${project.documentation.outputDir}").exists()
+        assertTrue project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}").exists()
     }
     
     @Test(expected=freemarker.core.ParseException.class)
@@ -65,13 +64,13 @@ class DescTaskTest {
         boolean tempDirCreated = project.file( project.documentation.templateDir ).mkdir()
         assertTrue tempDirCreated
         
-        PrintWriter out = new PrintWriter ( "${project.rootDir}/${project.documentation.templateDir}/test.md.ftl" )        
+        PrintWriter out = new PrintWriter ( "${project.rootDir}${File.separator}${project.documentation.templateDir}${File.separator}test.md.ftl" )        
         out.println '${project.name Description'
         out.close()
 
         task.description()                
         
-        assertFalse project.file( "${project.buildDir}/${project.documentation.outputDir}/test.md").exists()        
+        assertFalse project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}${File.separator}test.md").exists()        
     }
  
     @Test(expected=freemarker.template.TemplateException.class)
@@ -79,13 +78,13 @@ class DescTaskTest {
         boolean tempDirCreated = project.file( project.documentation.templateDir ).mkdir()
         assertTrue tempDirCreated
         
-        PrintWriter out = new PrintWriter ( "${project.rootDir}/${project.documentation.templateDir}/test.md.ftl" )        
+        PrintWriter out = new PrintWriter ( "${project.rootDir}${File.separator}${project.documentation.templateDir}${File.separator}test.md.ftl" )        
         out.println '${project.nameeeee} Description'
         out.close()
 
         task.description()                
 
-        assertFalse project.file( "${project.buildDir}/${project.documentation.outputDir}/test.md").exists()        
+        assertFalse project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}${File.separator}test.md").exists()        
     }
 
     @Test
@@ -93,13 +92,13 @@ class DescTaskTest {
         boolean tempDirCreated = project.file( project.documentation.templateDir ).mkdir()
         assertTrue tempDirCreated
         
-        PrintWriter out = new PrintWriter ( "${project.rootDir}/${project.documentation.templateDir}/test.md.wrongext" )        
+        PrintWriter out = new PrintWriter ( "${project.rootDir}${File.separator}${project.documentation.templateDir}${File.separator}test.md.wrongext" )        
         out.println '${project.name Description'
         out.close()
 
         task.description()     
         
-        assertTrue project.file( "${project.buildDir}/${project.documentation.outputDir}").list().length == 0        
+        assertTrue project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}").list().length == 1 // figures subdir
     }    
     
     @Test
@@ -107,7 +106,7 @@ class DescTaskTest {
         boolean tempDirCreated = project.file( project.documentation.templateDir ).mkdir()
         assertTrue tempDirCreated
         task.description()
-        assertTrue project.file( "${project.buildDir}/${project.documentation.outputDir}").list().length == 0     
+        assertTrue project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}").list().length == 1 // figures subdir    
     }
  
     @Test
@@ -115,17 +114,45 @@ class DescTaskTest {
         boolean tempDirCreated = project.file( project.documentation.templateDir ).mkdir()
         assertTrue tempDirCreated
         
-        PrintWriter out = new PrintWriter ( "${project.rootDir}/${project.documentation.templateDir}/test1.md.ftl" )        
+        PrintWriter out = new PrintWriter ( "${project.rootDir}${File.separator}${project.documentation.templateDir}${File.separator}test1.md.ftl" )        
         out.println '${project.name} Description'
         out.close()
-        out = new PrintWriter ( "${project.rootDir}/${project.documentation.templateDir}/test2.md.ftl" )        
+        out = new PrintWriter ( "${project.rootDir}${File.separator}${project.documentation.templateDir}${File.separator}test2.md.ftl" )        
         out.println '${project.name} Description'
         out.close()
         
         task.description() 
         
-        assertTrue project.file( "${project.buildDir}/${project.documentation.outputDir}/test1.md").exists()        
-        assertTrue project.file( "${project.buildDir}/${project.documentation.outputDir}/test2.md").exists()        
+        assertTrue project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}${File.separator}test1.md").exists()        
+        assertTrue project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}${File.separator}test2.md").exists()        
+    }    
+    
+    @Test
+    public void complexFieldInTemplate() {
+        boolean tempDirCreated = project.file( project.documentation.templateDir ).mkdir()
+        assertTrue tempDirCreated
+        
+        PrintWriter out = new PrintWriter ( "${project.rootDir}${File.separator}${project.documentation.templateDir}${File.separator}test.md.ftl" )        
+        out.println '${project.documentation.getOutputDir()} is output directory'
+        out.close()
+        
+        task.description()        
+    }
+    
+    @Test
+    public void genHtml() {
+        boolean tempDirCreated = project.file( project.documentation.templateDir ).mkdir()
+        assertTrue tempDirCreated
+        
+        PrintWriter out = new PrintWriter ( "${project.rootDir}${File.separator}${project.documentation.templateDir}${File.separator}test.md.ftl" )        
+        out.println '${project.name} Description'
+        out.close()
+        
+        project.documentation.genHtml = true
+        task.description() 
+        
+        assertTrue project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}${File.separator}test.md").exists()        
+        assertTrue project.file( "${project.buildDir}${File.separator}${project.documentation.outputDir}${File.separator}test.html").exists()        
     }    
     
 }
