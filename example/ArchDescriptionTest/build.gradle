@@ -1,17 +1,7 @@
-buildscript {
-    repositories {
-        maven {
-            url  "http://dl.bintray.com/amilenovic/maven" 
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'com.biformatic.archtools', name: 'ArchDescriptionGradlePlugin', version: '0.0.7'
-    }
+plugins {
+  id "com.biformatic.archtools.ArchDescription" version "0.0.8"
 }
-
 apply plugin: 'java'
-apply plugin: 'com.biformatic.archtools.arch-description'
 apply plugin: UseCasePlugin
 
 class UseCase {

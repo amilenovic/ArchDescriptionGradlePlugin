@@ -20,7 +20,7 @@ The directory containing templates and output directory are configurable.
 In your ```build.gradle``` file, add following plugin:
 
 ``` groovy
-apply plugin: com.biformatic.archtools.arch-description
+apply plugin: com.biformatic.archtools.ArchDescription
 ```
 
 By default, Templates are located in ```$rootDir/templates``` and output is in
@@ -28,7 +28,7 @@ By default, Templates are located in ```$rootDir/templates``` and output is in
 
 ``` groovy
 
-    apply plugin: com.biformatic.archtools.arch-description
+    apply plugin: com.biformatic.archtools.ArchDescription
     // as example, this is java based project
     apply plugin: java
 

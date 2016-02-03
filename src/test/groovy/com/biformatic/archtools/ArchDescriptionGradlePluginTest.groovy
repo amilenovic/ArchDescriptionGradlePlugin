@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.biformatic.archtools
 
 import org.junit.After
@@ -30,7 +24,7 @@ class ArchDescriptionGradlePluginTest {
     @Before
     public void setUp() {
         project = ProjectBuilder.builder().build()
-        project.pluginManager.apply 'com.biformatic.archtools.arch-description'        
+        project.pluginManager.apply 'com.biformatic.archtools.ArchDescription'        
     }
 
     @After

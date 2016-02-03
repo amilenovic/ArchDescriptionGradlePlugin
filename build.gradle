@@ -1,11 +1,24 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.gradle.publish:plugin-publish-plugin:0.9.3"
+  }
+}
+
+
 plugins {
-    id "com.jfrog.bintray" version "1.4"
+    id 'com.jfrog.bintray' version '1.4'
 }
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'com.gradle.plugin-publish'
 
 group       = 'com.biformatic.archtools'
-version     = '0.0.7'
+version     = '0.0.8'
 description = 'Generates Architecture Description based on supplied Markdown templates.\n\
 Within the template you can use PlantUml directives.'
 
@@ -36,6 +49,20 @@ bintray {
             released  = new Date()
         }
     }
+}
+
+pluginBundle {
+  website = 'https://github.com/amilenovic/ArchDescriptionGradlePlugin.git'
+  vcsUrl =  'https://github.com/amilenovic/ArchDescriptionGradlePlugin.git'
+  description = "${project.description}"
+  tags = ['architecture', 'documentation', 'freemarker', 'uml', 'markdown']
+
+  plugins {
+    ArchDescription {
+      id = 'com.biformatic.archtools.ArchDescription'
+      displayName = 'Architecture Description Gradle Plugin'
+    }
+  }
 }
 
 println 'Architecture Description Gradle Plugin'

@@ -27,7 +27,7 @@ class DescTaskTest {
     @Before
     public void setUp() {
         project = ProjectBuilder.builder().build()
-        project.pluginManager.apply 'com.biformatic.archtools.arch-description'             
+        project.pluginManager.apply 'com.biformatic.archtools.ArchDescription'             
         task = project.tasks.documentation
     }
     
