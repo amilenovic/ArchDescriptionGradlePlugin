@@ -66,4 +66,4 @@ for such conversion.
 
 ## Example
 
-Go to ```example``` directory to check out how to use.
+Go to ```example``` [directory](example/ArchDescriptionTest) directory to check out how to use.
