@@ -1,4 +1,4 @@
-Architecture Description Gradle Plugin
+Architecture Description Gradle Plugin [![Build Status](https://travis-ci.org/amilenovic/ArchDescriptionGradlePlugin.svg?branch=master)](https://travis-ci.org/amilenovic/ArchDescriptionGradlePlugin)
 ======================================
 
 This is a Gradle plugin that is generating a Project or Architecture description.
