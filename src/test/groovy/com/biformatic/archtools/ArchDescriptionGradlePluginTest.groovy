@@ -46,7 +46,6 @@ class ArchDescriptionGradlePluginTest {
         assertEquals '', project.documentation.templateUrl
         assertEquals 'templates',   project.documentation.templateDir
         assertEquals 'description', project.documentation.outputDir
-        assertTrue  project.documentation.genMd
         assertFalse project.documentation.genHtml
     }
 }
